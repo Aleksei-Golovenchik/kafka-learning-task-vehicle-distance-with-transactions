@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    distance-topic: output
+    signal-topic: input
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      transaction-id-prefix: tx-
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: com.epam.learn.*
+logging:
+  level:
+#    root: warn
+    org.springframework.transaction: trace
+    org.springframework.kafka.transaction: debug

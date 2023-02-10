@@ -1,0 +1,46 @@
+dist/
+**/target
+/.apt_generated_tests/
+/.apt_generated/
+
+
+### Maven Related ###
+target/
+*/*/target/*
+*/target/*
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS/Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Mac
+.DS_Store
+
+#class files
+*.class
+
+#log files
+*.log
+
+#migration files
+*.ddl
+
