@@ -1,4 +1,4 @@
-package com.epam.learn.distance.handler;
+package com.epam.learn.handler;
 
 import com.epam.learn.dto.SignalDistanceEntry;
 import com.epam.learn.dto.VehicleSignal;
@@ -20,29 +20,15 @@ public class SignalHandlingService {
 
     private static final Cache<String, SignalDistanceEntry> cache = CacheBuilder.newBuilder().concurrencyLevel(3).build();
 
-    private final KafkaTemplate<String, BigDecimal> firstTemplate;
-    private final KafkaTemplate<String, BigDecimal> secondTemplate;
-    private final KafkaTemplate<String, BigDecimal> thirdTemplate;
+    private final KafkaTemplate<String, BigDecimal> kafkaTemplate;
 
     @Value("${spring.kafka.distance-topic}")
     private String distanceTopic;
 
     @Transactional
-    @KafkaListener(topics = "${spring.kafka.signal-topic}", clientIdPrefix = "first-signal-handler", groupId = "signal-handlers")
-    public void handleAsFirst(ConsumerRecord<String, VehicleSignal> signalRecord) {
-        firstTemplate.send(distanceTopic, signalRecord.key(), calculateDistance(signalRecord));
-    }
-
-    @Transactional
-    @KafkaListener(topics = "${spring.kafka.signal-topic}", clientIdPrefix = "second-signal-handler", groupId = "signal-handlers")
-    public void handleAsSecond(ConsumerRecord<String, VehicleSignal> signalRecord) {
-        secondTemplate.send(distanceTopic, signalRecord.key(), calculateDistance(signalRecord));
-    }
-
-    @Transactional
-    @KafkaListener(topics = "${spring.kafka.signal-topic}", clientIdPrefix = "third-signal-handler", groupId = "signal-handlers")
-    public void handleAsThird(ConsumerRecord<String, VehicleSignal> signalRecord) {
-        thirdTemplate.send(distanceTopic, signalRecord.key(), calculateDistance(signalRecord));
+    @KafkaListener(topics = "${spring.kafka.signal-topic}", groupId = "signal-handlers", concurrency = "3")
+    public void handleInputSignal(ConsumerRecord<String, VehicleSignal> signalRecord) {
+        kafkaTemplate.send(distanceTopic, signalRecord.key(), calculateDistance(signalRecord));
     }
 
     private BigDecimal calculateDistance(ConsumerRecord<String, VehicleSignal> signalRecord) {

@@ -1,4 +1,4 @@
-package com.epam.learn.distance.listner;
+package com.epam.learn.distance.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

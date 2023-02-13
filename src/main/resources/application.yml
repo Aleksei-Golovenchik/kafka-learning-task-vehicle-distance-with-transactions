@@ -10,10 +10,13 @@ spring:
     consumer:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      isolation-level: read-committed
       properties:
-        spring.json.trusted.packages: com.epam.learn.*
+        spring.json.trusted.packages: com.epam.learn.*,java.math
+
 logging:
   level:
-#    root: warn
+    root: warn
     org.springframework.transaction: trace
     org.springframework.kafka.transaction: debug
+    com.epam.learn.distance.listener: info

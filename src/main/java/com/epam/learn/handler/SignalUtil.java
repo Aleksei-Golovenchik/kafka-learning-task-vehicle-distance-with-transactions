@@ -1,4 +1,4 @@
-package com.epam.learn.distance.handler;
+package com.epam.learn.handler;
 
 import com.epam.learn.dto.SignalDistanceEntry;
 import com.epam.learn.dto.VehicleSignal;
